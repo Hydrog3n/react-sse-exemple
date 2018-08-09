@@ -1,0 +1,12 @@
+# Editor
+.vscode/
+
+# Node stuff
+node_modules/
+yarn-error.log
+
+# Dist
+dist/
+
+# System files
+.DS_Store

@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+
+  .error {
+    color: red;
+    display: none;
+  }
+  .response {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }
+}
