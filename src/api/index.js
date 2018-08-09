@@ -11,6 +11,18 @@ app.get('/', (res, req) => res.send('hello'));
 
 app.get('/convert/:number', (req, res) => res.send(JSON.stringify(convert(req.params.number))))
 
+app.get('/sse/convert/:number', (req, res) => {
+  res.writeHead(200, {
+    'Connection': 'keep-alive',
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache'
+  });
+
+  setInterval(function(){
+    res.write('data: ' + JSON.stringify(convert(req.params.number)) + '\n\n');
+  }, 4000);
+});
+
 const convert = (number) => {
   try {
     num = parseInt(number, 10);
@@ -32,7 +44,7 @@ const convert = (number) => {
     }
 
     result = Array(+digits.join("") + 1).join("M") + roman;
-    return { 'roman' : result };
+    return {'roman' : result };
   } catch (error) {
 
   }

@@ -30,16 +30,20 @@ export default class App extends React.Component {
     );
   }
 
+  onMessage = (event, source) => {
+    const data = JSON.parse(event.data);
+
+    this.setState({
+      numberResponse: data.roman,
+    });
+    source.close();
+  };
+
   sendNumber() {
     const number = this.state.submitNumber;
-    fetch("http://localhost:3001/convert/" + number)
-      .then(response => response.json())
-      .then(data => {
-        return this.setState({
-          numberResponse: data.roman,
-        })
-      }
-      );
 
+    const eventSource = new EventSource('http://localhost:3001/sse/convert/' + number);
+
+    eventSource.onmessage = (e) => this.onMessage(e, eventSource);
   };
 }
